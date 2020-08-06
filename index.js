@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
-
+//var dotenv = require('dotenv');
+require('dotenv').config();
 var app = express();
 
 // var allowCrossDomain = function (req, res, next) {
@@ -22,7 +23,6 @@ var app = express();
 
 // app.use(allowCrossDomain());
 
-require('dotenv').config();
 require('./config/passport');
 //middleware
 app.use(express.json());
@@ -47,5 +47,6 @@ app.use('/user', require('./routes/user.js'));
 var port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-  `Server starts at port ${port}`;
+  console.log(`Server starts at port ${port}`);
+  // console.log(process.env);
 });

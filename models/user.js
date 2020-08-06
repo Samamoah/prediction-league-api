@@ -11,10 +11,17 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   User.associate = function (models) {
-    // associations can be defined here
-    User.hasMany(models.Group, { as: 'created' });
-
-    User.belongsToMany(models.Group, { through: 'GroupUsers', as: 'groups' });
+    var { Group, Prediction } = models;
+    User.hasMany(Group, { as: 'created' });
+    User.hasMany(Prediction, {
+      foreignKey: 'UserId',
+      as: 'predictions',
+      foreignKeyConstraint: true,
+    });
+    User.belongsToMany(Group, {
+      through: 'GroupUsers',
+      as: 'groups',
+    });
   };
   return User;
 };
