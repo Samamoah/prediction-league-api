@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   const Prediction = sequelize.define(
     'Prediction',
     {
-      gameweek: DataTypes.STRING,
+      matchday: DataTypes.INTEGER,
+      competition: DataTypes.STRING,
       UserId: DataTypes.STRING,
     },
     {}

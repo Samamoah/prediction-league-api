@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       picture: DataTypes.STRING,
-      GoogleId: DataTypes.STRING,
     },
     {}
   );
@@ -14,13 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     var { Group, Prediction } = models;
     User.hasMany(Group, { as: 'created' });
     User.hasMany(Prediction, {
-      foreignKey: 'UserId',
       as: 'predictions',
-      foreignKeyConstraint: true,
     });
     User.belongsToMany(Group, {
       through: 'GroupUsers',
       as: 'groups',
+      foreignKey: 'UserId',
     });
   };
   return User;

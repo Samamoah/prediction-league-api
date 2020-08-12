@@ -63,6 +63,46 @@ module.exports = {
     );
     res.json(response);
   },
+  async joinGroupByCode(req, res) {
+    try {
+      var group = await Group.findOne(
+        { where: { code: req.params.code } },
+        { include: ['members', 'creator'] }
+      );
+
+      var user = await User.findOne({ where: { id: req.params.UserId } });
+      var join = await group.addMembers(user, {
+        through: { selfGranted: false },
+      });
+
+      const response = await Group.findOne(
+        { where: { code: req.params.code } },
+        { include: ['members', 'creator'] }
+      );
+      console.log(join);
+      res.json(join);
+    } catch (error) {
+      res.json({
+        confirmation: 'fail',
+        message: error.message,
+      });
+    }
+  },
+  async searchGroup(req, res) {
+    try {
+      var regex = new RegExp(req.params.term, 'i');
+      var groups = await Group.findAll({ where: { name: regex } });
+      res.json({
+        confirmation: 'succes',
+        data: groups,
+      });
+    } catch (error) {
+      res.json({
+        confirmation: 'fail',
+        message: error.message,
+      });
+    }
+  },
   createGroup(req, res) {
     let { name, UserId } = req.body;
 
@@ -79,7 +119,10 @@ module.exports = {
 
         var user = await User.findOne({ where: { id: UserId } });
         await group.addMembers(user, { through: { selfGranted: false } });
-        res.redirect('/group');
+        res.json({
+          confirmation: 'success',
+          message: 'created',
+        });
       })
       .catch((err) => {
         res.json({

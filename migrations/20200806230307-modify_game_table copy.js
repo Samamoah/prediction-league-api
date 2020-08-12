@@ -3,9 +3,9 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.addColumn('Games', 'points', {
-        type: Sequelize.INTEGER,
-      }),
+      queryInterface.removeColumn('Games', 'date'),
+      queryInterface.removeColumn('Games', 'homeTeam'),
+      queryInterface.removeColumn('Games', 'awayTeam'),
     ]);
 
     /*

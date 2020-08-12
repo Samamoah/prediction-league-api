@@ -10,16 +10,14 @@ module.exports = (sequelize, DataTypes) => {
       winner: DataTypes.STRING,
       homeTeam: DataTypes.INTEGER,
       awayTeam: DataTypes.INTEGER,
+      awarded: DataTypes.BOOLEAN,
     },
     {}
   );
   Game.associate = function (models) {
     //associations can be defined here
     var { Prediction } = models;
-    Game.belongsTo(Prediction, {
-      as: 'predictionWeek',
-      foreignKeyConstraint: true,
-    });
+    Game.belongsTo(Prediction);
   };
   return Game;
 };

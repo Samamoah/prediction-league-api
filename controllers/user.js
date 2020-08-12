@@ -1,9 +1,39 @@
+const JWT = require('jsonwebtoken');
 const db = require('../models/index');
 const User = db['User'];
 
+signToken = (user) => {
+  return JWT.sign(
+    {
+      iss: 'PredictionLeague',
+      sub: user.id,
+      //iat: new Date().getTime(), // current time
+      //exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+    },
+    process.env.JWT_SECRET
+  );
+};
+
 module.exports = {
   getUsers(req, res) {
-    User.findAll({ include: ['groups', 'created'] })
+    User.findAll({ include: { all: true } })
+      .then((users) => {
+        res.json({
+          confirmation: 'success',
+          data: users,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+  getUser(req, res) {
+    User.findByPk(req.params.id, {
+      include: ['groups', 'created', 'predictions'],
+    })
       .then((users) => {
         res.json({
           confirmation: 'success',
@@ -37,6 +67,23 @@ module.exports = {
           message: err,
         });
       });
+  },
+  googleOAuth: async (req, res, next) => {
+    // Generate token
+    try {
+      const token = await signToken(req.user);
+      return res.status(200).json({ user: req.user, token });
+    } catch (err) {
+      return res.json({
+        status: 'fail',
+        message: err,
+      });
+    }
+  },
+  googleCallback: async (req, res, next) => {
+    // Generate token
+
+    res.status(200);
   },
 
   //   addUser(req, res) {

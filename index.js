@@ -1,52 +1,41 @@
 var express = require('express');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var passport = require('passport');
-//var dotenv = require('dotenv');
+var cors = require('cors');
 require('dotenv').config();
 var app = express();
 
-// var allowCrossDomain = function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', '*');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     // 'Origin, X-Requested-With, Content-Type, Accept, Cache-Control',
-//     '*'
-//   );
 
-//   //intercept OPTIONS method
-//   if ('OPTIONS' == req.method) {
-//     res.sendStatus(200);
-//   } else {
-//     next();
-//   }
-// };
+app.use(cors({ origin: 'http://localhost:3000' }));
 
-// app.use(allowCrossDomain());
-
-require('./config/passport');
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser('anything'));
 
-//database3 connection
-// require('./models/index.js');
+app.use(
+    session({
+        secret: 'anything',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport');
 
-// db.authenticate()
-//   .then(() => console.log('Database connected....'))
-//   .catch((err) => console.log(`${err}`));
-// middleware
-// app.use(bodyParser.json());
-
-app.get('/', function (req, res) {
-  res.send('Hello World');
+app.get('/', function(req, res) {
+    res.send('Hello World');
 });
 
 app.use('/group', require('./routes/group.js'));
 app.use('/user', require('./routes/user.js'));
+app.use('/game', require('./routes/game.js'));
+app.use('/prediction', require('./routes/prediction.js'));
 
 var port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-  console.log(`Server starts at port ${port}`);
-  // console.log(process.env);
+    console.log(`Server starts at port ${port}`);
 });
