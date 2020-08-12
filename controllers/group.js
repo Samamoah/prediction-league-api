@@ -1,3 +1,5 @@
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 const db = require('../models/index');
 const Group = db['Group'];
 const User = db['User'];
@@ -50,18 +52,20 @@ module.exports = {
   },
   async joinGroup(req, res) {
     var group = await Group.findOne(
-      { where: { id: req.params.groupid } },
+      { where: { id: req.params.GroupId } },
       { include: ['members', 'creator'] }
     );
 
-    var user = await User.findOne({ where: { id: req.params.userid } });
-    await group.addMembers(user, { through: { selfGranted: false } });
+    var user = await User.findOne({ where: { id: req.params.UserId } });
+    var join = await group.addMembers(user, {
+      through: { selfGranted: false },
+    });
 
     const response = await Group.findOne(
-      { where: { id: req.params.groupid } },
+      { where: { id: req.params.GroupId } },
       { include: ['members', 'creator'] }
     );
-    res.json(response);
+    res.json(join);
   },
   async joinGroupByCode(req, res) {
     try {
@@ -90,10 +94,13 @@ module.exports = {
   },
   async searchGroup(req, res) {
     try {
-      var regex = new RegExp(req.params.term, 'i');
-      var groups = await Group.findAll({ where: { name: regex } });
+      //   var regex = new RegExp(req.params.term);
+      var groups = await Group.findAll({
+        // where: { name: { [Op.startsWith]: req.params.term } },
+        where: { name: { [Op.iLike]: '%' + req.params.term + '%' } },
+      });
       res.json({
-        confirmation: 'succes',
+        confirmation: 'success',
         data: groups,
       });
     } catch (error) {

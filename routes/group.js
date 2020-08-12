@@ -12,16 +12,16 @@ const {
   createGroup,
 } = require('../controllers/group');
 
-//router.route('/join/:groupid/:userid').post(joinGroup);
 router.route('/join/:code/:UserId').post(joinGroupByCode);
+router.route('/joingroup/:GroupId/:UserId').post(joinGroup);
 
 router.route('/create').post(createGroup);
 
 router.route('/update/:id').put(updateGroup);
 
 router.route('/delete/:id').delete(deleteGroup);
+router.route('/search/:term').get(searchGroup);
 router.route('/:id').get(getGroup);
-router.route('/:term').get(searchGroup);
 router.route('/').get(getGroups);
 
 module.exports = router;
