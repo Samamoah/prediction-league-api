@@ -6,7 +6,6 @@ var cors = require('cors');
 require('dotenv').config();
 var app = express();
 
-
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 //middleware
@@ -15,18 +14,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('anything'));
 
 app.use(
-    session({
-        secret: 'anything',
-        resave: false,
-        saveUninitialized: true,
-    })
+  session({
+    secret: 'anything',
+    resave: false,
+    saveUninitialized: true,
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
 
-app.get('/', function(req, res) {
-    res.send('Hello World');
+app.get('/', function (req, res) {
+  res.send('Hello World');
 });
 
 app.use('/group', require('./routes/group.js'));
@@ -37,5 +36,5 @@ app.use('/prediction', require('./routes/prediction.js'));
 var port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-    console.log(`Server starts at port ${port}`);
+  console.log(`Server starts at port ${port}`);
 });

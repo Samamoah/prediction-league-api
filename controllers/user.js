@@ -71,8 +71,9 @@ module.exports = {
   googleOAuth: async (req, res, next) => {
     // Generate token
     try {
-      const token = await signToken(req.user);
-      return res.status(200).json({ user: req.user, token });
+      console.log(req.user[0]);
+      const token = await signToken(req.user[0]);
+      return res.status(200).json({ user: req.user[0], token });
     } catch (err) {
       return res.json({
         status: 'fail',
@@ -84,6 +85,12 @@ module.exports = {
     // Generate token
 
     res.status(200);
+  },
+  logOut: (req, res, next) => {
+    // Generate token
+
+    req.logout();
+    res.status(200).json({ done: 'done' });
   },
 
   //   addUser(req, res) {

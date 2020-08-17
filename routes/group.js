@@ -10,8 +10,10 @@ const {
   joinGroup,
   joinGroupByCode,
   createGroup,
+  getUserGroups,
 } = require('../controllers/group');
 
+router.route('/authuser/:id').get(getUserGroups);
 router.route('/join/:code/:UserId').post(joinGroupByCode);
 router.route('/joingroup/:GroupId/:UserId').post(joinGroup);
 

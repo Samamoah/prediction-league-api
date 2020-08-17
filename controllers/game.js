@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const axios = require('axios');
 const Game = db['Game'];
 const Prediction = db['Prediction'];
 const competition = require(__dirname + '/response1.json');
@@ -30,6 +31,65 @@ module.exports = {
         res.json({
           confirmation: 'success',
           data: game,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+  awardPoints(req, res) {
+    Game.findAll({ raw: true })
+      .then((games) => {
+        for (let i = 0; i < games.length; i++) {
+          const element = games[i];
+          var state = element.awarded;
+          var id = element.gameId;
+          if (!state) {
+            console.log(id);
+            axios
+              .get(`http://api.football-data.org/v2/matches/${id}`, {
+                headers: {
+                  'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+                },
+              })
+              .then((res) => {
+                if (element.winner === res.data.match.score.winner) {
+                  Game.update(
+                    {
+                      points: 3,
+                      awarded: true,
+                    },
+                    {
+                      where: { id: element.id },
+                    }
+                  )
+                    .then(() => console.log('done'))
+                    .catch((err) => console.log(err));
+                } else {
+                  Game.update(
+                    {
+                      points: 0,
+                      awarded: true,
+                    },
+                    {
+                      where: { id: element.id },
+                    }
+                  )
+                    .then(() => console.log('done'))
+                    .catch((err) => console.log(err));
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }
+        res.json({
+          confirmation: 'success',
+          message: 'Awarding points excuted',
         });
       })
       .catch((err) => {

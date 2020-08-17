@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const { default: Axios } = require('axios');
 const Prediction = db['Prediction'];
 const Game = db['Game'];
 
@@ -20,10 +21,10 @@ module.exports = {
   },
   getPredictions(req, res) {
     Prediction.findAll({ include: ['games', 'creator'] })
-      .then((prediction) => {
+      .then((predictions) => {
         res.json({
           confirmation: 'success',
-          data: prediction,
+          data: predictions,
         });
       })
       .catch((err) => {
@@ -33,6 +34,24 @@ module.exports = {
         });
       });
   },
+  findPrediction(req, res) {
+    Prediction.findAll({
+      where: { UserId: req.params.user, matchday: 1 },
+    })
+      .then((predictions) => {
+        res.json({
+          confirmation: 'success',
+          data: predictions,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+
   createPrediction(req, res) {
     let { matchday, competition, games, UserId } = req.body;
 

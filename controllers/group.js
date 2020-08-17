@@ -20,6 +20,26 @@ module.exports = {
         });
       });
   },
+  async getUserGroups(req, res) {
+    try {
+      var user = await User.findOne({ where: { id: req.params.id } });
+      var groups = await Group.findAll({
+        include: ['members', 'creator'],
+      });
+
+      var newgroups = groups.filter((group) => group.hasMembers(user));
+
+      res.json({
+        confirmation: 'success',
+        data: newgroups,
+      });
+    } catch (err) {
+      res.json({
+        confirmation: 'fail',
+        message: err,
+      });
+    }
+  },
   getGroup(req, res) {
     Group.findByPk(req.params.id, { include: ['members', 'creator'] })
       .then((group) => {
