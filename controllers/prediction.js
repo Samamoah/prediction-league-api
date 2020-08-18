@@ -1,7 +1,9 @@
 const db = require('../models/index');
-const { default: Axios } = require('axios');
+//const { default: Axios } = require('axios');
+//const prediction = require('../models/prediction');
 const Prediction = db['Prediction'];
 const Game = db['Game'];
+const User = db['User'];
 
 module.exports = {
   getPrediction(req, res) {
@@ -42,6 +44,48 @@ module.exports = {
         res.json({
           confirmation: 'success',
           data: predictions,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+  awardPredictionUser(req, res) {
+    Prediction.findAll({
+      //include: [{ model: Game, as: 'games' }],
+      include: ['games'],
+      where: { UserId: req.params.user },
+    })
+      .then((predictions) => {
+        // var ids = predictions
+        //   .map((prediction) => prediction.games)
+        var predgames = [];
+        for (var i = 0; i < predictions.length; i++) {
+          var games = predictions[i].games;
+          for (var v = 0; v < games.length; v++) {
+            predgames.push(games[v]);
+          }
+        }
+
+        var points = predgames
+          .map((game) => game.points)
+          .reduce((value, current) => value + current);
+        User.update(
+          {
+            points: points,
+          },
+          {
+            where: { id: req.params.user },
+          }
+        ).then(() => {
+          res.json({
+            confirmation: 'success',
+            // data: ids,
+            message: 'awarded',
+          });
         });
       })
       .catch((err) => {

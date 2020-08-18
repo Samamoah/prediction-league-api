@@ -6,6 +6,7 @@ const {
   getPredictions,
   createPrediction,
   findPrediction,
+  awardPredictionUser,
 } = require('../controllers/prediction');
 
 //router.route('/').get(getPredictions);
@@ -14,6 +15,7 @@ const {
 
 router.route('/create').post(createPrediction);
 router.route('/week/:user').get(findPrediction);
+router.route('/award/:user').get(awardPredictionUser);
 router.route('/:id').get(getPrediction);
 router.route('/').get(getPredictions);
 
