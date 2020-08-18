@@ -1,4 +1,5 @@
 var express = require('express');
+var ejwt = require('express-jwt');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
@@ -6,7 +7,8 @@ var cors = require('cors');
 require('dotenv').config();
 var app = express();
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
+//app.use(cors({ origin: 'http://localhost:3000' }));
 
 //middleware
 app.use(express.json());
@@ -23,6 +25,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
+
+app.use(
+  ejwt({ secret: process.env.JWT_SECRET }).unless({
+    path: ['/user/auth/google'],
+  })
+);
 
 app.get('/', function (req, res) {
   res.send('Hello World');

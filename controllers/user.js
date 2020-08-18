@@ -93,9 +93,7 @@ module.exports = {
     res.status(200).json({ done: 'done' });
   },
 
-  awardedPoints(){
-    
-  }
+  awardedPoints() {},
 
   //   addUser(req, res) {
   //     const data = {

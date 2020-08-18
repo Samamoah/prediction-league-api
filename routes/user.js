@@ -37,8 +37,8 @@ router
 // //router.route('/auth/google').post(passport.authenticate('google'), googleOAuth);
 // router.route('/auth/google/callback').get(passportCallback);
 // router.route('/auth/google/success').get(googleOAuth);
-router.route('/user/:id').get(getUser);
 router.route('/logout').get(logOut);
+router.route('/:id').get(getUser);
 router.route('/').get(getUsers);
 
 module.exports = router;
