@@ -95,6 +95,50 @@ module.exports = {
         });
       });
   },
+  awardPredictionGraphUser(req, res) {
+    Prediction.findAll({
+      //include: [{ model: Game, as: 'games' }],
+      include: ['games'],
+      where: { UserId: req.params.user },
+      //limit: 5,
+    })
+      .then((predictions) => {
+        //console.log('here');
+        var predgames = [];
+        for (var i = 0; i < predictions.length; i++) {
+          // console.log('here');
+          if (predictions[i].games.length > 0) {
+            var points = predictions[i].games
+              .map((game) => game.points)
+              .reduce((value, current) => value + current);
+            console.log(predictions[i].id);
+            console.log(predictions[i].matchday);
+            console.log(points);
+            var pred = {
+              id: predictions[i].id,
+              matchday: predictions[i].matchday,
+              points: points,
+            };
+            predgames.push({
+              id: predictions[i].id,
+              matchday: predictions[i].matchday,
+              points: points,
+            });
+          }
+        }
+
+        res.json({
+          confirmation: 'success',
+          data: predgames,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
 
   createPrediction(req, res) {
     let { matchday, competition, games, UserId } = req.body;
