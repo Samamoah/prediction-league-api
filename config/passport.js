@@ -14,7 +14,6 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         var user = await User.findOrCreate({
-          include: { all: true },
           where: { email: profile.emails[0].value },
           defaults: {
             name: profile.displayName,
