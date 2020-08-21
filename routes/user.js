@@ -8,6 +8,9 @@ const {
   getUser,
   logOut,
   googleOAuth,
+  twitterOAuth,
+  twitterReq,
+  twitterReverse,
 } = require('../controllers/user');
 // const passportGoogle = passport.authenticate('google', {
 //     scope: [
@@ -34,6 +37,20 @@ router.route('/add').post(addUser);
 router
   .route('/auth/google')
   .post(passport.authenticate('google-token'), googleOAuth);
+// router
+//   .route('/auth/twitter')
+//   .post(passport.authenticate('twitter-token'), twitterOAuth);
+
+router.route('/auth/twitter/reverse').post(twitterReverse);
+
+router
+  .route('/auth/twitter')
+  .post(
+    twitterReq,
+    passport.authenticate('twitter-token', { session: false }),
+    twitterOAuth
+  );
+
 // //router.route('/auth/google').post(passport.authenticate('google'), googleOAuth);
 // router.route('/auth/google/callback').get(passportCallback);
 // router.route('/auth/google/success').get(googleOAuth);

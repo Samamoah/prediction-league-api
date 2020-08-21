@@ -27,7 +27,14 @@ module.exports = {
         include: ['members', 'creator'],
       });
 
-      var newgroups = groups.filter((group) => group.hasMembers(user));
+      var newgroups = [];
+      for (var i = 0; i < groups.length; i++) {
+        for (var v = 0; v < groups[i].members.length; v++) {
+          if (groups[i].members[v].id === user.id) {
+            newgroups.push(groups[i]);
+          }
+        }
+      }
 
       res.json({
         confirmation: 'success',
