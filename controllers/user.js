@@ -143,7 +143,7 @@ module.exports = {
       {
         url: 'https://api.twitter.com/oauth/request_token',
         oauth: {
-          oauth_callback: 'http%3A%2F%2Flocalhost%3A5000',
+          oauth_callback: callback,
           consumer_key: process.env.TWITTER_CONSUMER_KEY,
           consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
         },
