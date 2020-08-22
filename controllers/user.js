@@ -6,7 +6,7 @@ const User = db['User'];
 
 const callback =
   process.env.NODE_ENV === 'production'
-    ? 'https%3A%2F%2Fpredictionleague%2Eherokuapp%2Ecom'
+    ? 'https%3A%2F%2Fpredictionleague%2Eonline'
     : 'http%3A%2F%2Flocalhost%3A5000';
 
 signToken = (user) => {
