@@ -50,5 +50,5 @@ app.use('/prediction', require('./routes/prediction.js'));
 var port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-  console.log(`Server starts at port ${port}`);
+  console.log(`Server start at port ${port}`);
 });
