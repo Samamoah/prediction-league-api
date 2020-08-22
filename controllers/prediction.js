@@ -60,33 +60,45 @@ module.exports = {
       where: { UserId: req.params.user },
     })
       .then((predictions) => {
-        // var ids = predictions
         //   .map((prediction) => prediction.games)
-        var predgames = [];
-        for (var i = 0; i < predictions.length; i++) {
-          var games = predictions[i].games;
-          for (var v = 0; v < games.length; v++) {
-            predgames.push(games[v]);
+        if (predictions.length > 0) {
+          var predgames = [];
+          for (var i = 0; i < predictions.length; i++) {
+            var games = predictions[i].games;
+            for (var v = 0; v < games.length; v++) {
+              predgames.push(games[v]);
+            }
           }
-        }
 
-        var points = predgames
-          .map((game) => game.points)
-          .reduce((value, current) => value + current);
-        User.update(
-          {
-            points: points,
-          },
-          {
-            where: { id: req.params.user },
+          if (predgames.length > 0) {
+            var points = predgames
+              .map((game) => game.points)
+              .reduce((value, current) => value + current);
+            User.update(
+              {
+                points: points,
+              },
+              {
+                where: { id: req.params.user },
+              }
+            ).then(() => {
+              res.json({
+                confirmation: 'success',
+                message: 'awarded',
+              });
+            });
+          } else {
+            res.json({
+              confirmation: 'success',
+              message: 'doesnt have games',
+            });
           }
-        ).then(() => {
+        } else {
           res.json({
             confirmation: 'success',
-            // data: ids,
-            message: 'awarded',
+            message: 'dont have predictions',
           });
-        });
+        }
       })
       .catch((err) => {
         res.json({

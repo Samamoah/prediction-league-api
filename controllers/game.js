@@ -48,7 +48,7 @@ module.exports = {
           var state = element.awarded;
           var id = element.gameId;
           if (!state) {
-            console.log(id);
+            //console.log(id);
             axios
               .get(`http://api.football-data.org/v2/matches/${id}`, {
                 headers: {

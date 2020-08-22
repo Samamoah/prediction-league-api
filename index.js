@@ -26,15 +26,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
 
-app.use(
-  ejwt({ secret: process.env.JWT_SECRET }).unless({
-    path: [
-      '/user/auth/google',
-      '/user/auth/twitter',
-      '/user/auth/twitter/reverse',
-    ],
-  })
-);
+// app.use(
+//   ejwt({ secret: process.env.JWT_SECRET }).unless({
+//     path: [
+//       '/user/auth/google',
+//       '/user/auth/twitter',
+//       '/user/auth/twitter/reverse',
+//       '/user',
+//       '/prediction/award/:user',
+//     ],
+//   })
+// );
 
 app.get('/', function (req, res) {
   res.send('Hello World');
