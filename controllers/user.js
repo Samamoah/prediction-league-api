@@ -4,9 +4,10 @@ const db = require('../models/index');
 const request = require('request');
 const User = db['User'];
 
-const callback = (process.env.NODE_ENV = 'production'
-  ? 'https%3A%2F%2Fpredictionleague%2Eherokuapp%2Ecom'
-  : 'http%3A%2F%2Flocalhost%3A5000');
+const callback =
+  process.env.NODE_ENV === 'production'
+    ? 'https%3A%2F%2Fpredictionleague%2Eherokuapp%2Ecom'
+    : 'http%3A%2F%2Flocalhost%3A5000';
 
 signToken = (user) => {
   return JWT.sign(
