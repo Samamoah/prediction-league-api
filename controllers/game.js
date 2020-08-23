@@ -22,7 +22,7 @@ module.exports = {
       confirmation: 'success',
       matchday: '1',
       competition: competition.competition.name,
-      data: unfinishedgames,
+      data: [],
     });
   },
   getGame(req, res) {
