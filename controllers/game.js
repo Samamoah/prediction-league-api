@@ -15,14 +15,16 @@ module.exports = {
           status: game.status,
         };
       })
-      .filter((game) => game.status !== 'FINISHED');
+      .filter((game) => game.status !== 'FINISHED')
+      .filter((game) => game.status !== 'POSTPONED')
+      .filter((game) => game.matchday === 1);
 
     //console.log('here', req);
     res.json({
       confirmation: 'success',
-      matchday: '1',
+      matchday: '2',
       competition: competition.competition.name,
-      data: [],
+      data: unfinishedgames,
     });
   },
   getGame(req, res) {
