@@ -13,6 +13,7 @@ module.exports = {
           homeTeam: game.homeTeam.name,
           awayTeam: game.awayTeam.name,
           status: game.status,
+          matchday: game.matchday,
         };
       })
       .filter((game) => game.status !== 'FINISHED')
