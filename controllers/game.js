@@ -5,6 +5,31 @@ const Prediction = db['Prediction'];
 // const competition = require(__dirname + '/response1.json');
 
 module.exports = {
+  // getCompetition(req, res) {
+  //   // console.log(competition);
+  //   const unfinishedgames = competition.matches
+  //     .map((game) => {
+  //       return {
+  //         id: game.id,
+  //         homeTeam: game.homeTeam.name,
+  //         awayTeam: game.awayTeam.name,
+  //         status: game.status,
+  //         matchday: game.matchday,
+  //       };
+  //     })
+  //     .filter((game) => game.matchday === 1)
+  //     .filter((game) => game.status !== 'FINISHED')
+  //     .filter((game) => game.status !== 'IN_PLAY')
+  //     .filter((game) => game.status !== 'POSTPONED');
+
+  //   //console.log('here', req);
+  //   res.json({
+  //     confirmation: 'success',
+  //     matchday: '2',
+  //     competition: competition.competition.name,
+  //     data: unfinishedgames,
+  //   });
+  //},
   async getCompetition(req, res) {
     try {
       const competition = await axios.get(
