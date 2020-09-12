@@ -2,10 +2,18 @@ const db = require('../models/index');
 const axios = require('axios');
 const Game = db['Game'];
 const Prediction = db['Prediction'];
-const competition = require(__dirname + '/response1.json');
+// const competition = require(__dirname + '/response1.json');
 
 module.exports = {
-  getCompetition(req, res) {
+  async getCompetition(req, res) {
+    const competition = await axios.get(
+      `http://api.football-data.org/v2/competitions/2021/matches/`,
+      {
+        headers: {
+          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+        },
+      }
+    );
     const unfinishedgames = competition.matches
       .map((game) => {
         return {
