@@ -6,35 +6,47 @@ const Prediction = db['Prediction'];
 
 module.exports = {
   async getCompetition(req, res) {
-    const competition = await axios.get(
-      `http://api.football-data.org/v2/competitions/2021/matches/`,
-      {
-        headers: {
-          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-        },
-      }
-    );
-    const unfinishedgames = competition.matches
-      .map((game) => {
-        return {
-          id: game.id,
-          homeTeam: game.homeTeam.name,
-          awayTeam: game.awayTeam.name,
-          status: game.status,
-          matchday: game.matchday,
-        };
-      })
-      .filter((game) => game.matchday === 1)
-      .filter((game) => game.status !== 'FINISHED')
-      .filter((game) => game.status !== 'POSTPONED');
+    try {
+      const competition = await axios.get(
+        `http://api.football-data.org/v2/competitions/2021/matches/`,
+        {
+          headers: {
+            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+          },
+        }
+      );
 
-    //console.log('here', req);
-    res.json({
-      confirmation: 'success',
-      matchday: '2',
-      competition: competition.competition.name,
-      data: unfinishedgames,
-    });
+      // console.log(competition);
+      const unfinishedgames = competition.data.matches
+        .map((game) => {
+          return {
+            id: game.id,
+            homeTeam: game.homeTeam.name,
+            awayTeam: game.awayTeam.name,
+            status: game.status,
+            matchday: game.matchday,
+          };
+        })
+        .filter((game) => game.matchday === 1)
+        .filter((game) => game.status !== 'FINISHED')
+        .filter((game) => game.status !== 'IN_PLAY')
+        .filter((game) => game.status !== 'POSTPONED');
+
+      //console.log('here', req);
+      res.json({
+        confirmation: 'success',
+        matchday: '2',
+        competition: competition.data.competition.name,
+        data: unfinishedgames,
+      });
+    } catch (err) {
+      res.json({
+        confirmation: 'fail',
+        name: err.name,
+        message: err.message,
+        data: [],
+      });
+    }
   },
   getGame(req, res) {
     Game.findByPk(req.params.id, { include: ['predictionweek'] })
