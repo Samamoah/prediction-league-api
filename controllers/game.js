@@ -24,9 +24,9 @@ module.exports = {
           matchday: game.matchday,
         };
       })
+      .filter((game) => game.matchday === 1)
       .filter((game) => game.status !== 'FINISHED')
-      .filter((game) => game.status !== 'POSTPONED')
-      .filter((game) => game.matchday === 1);
+      .filter((game) => game.status !== 'POSTPONED');
 
     //console.log('here', req);
     res.json({
