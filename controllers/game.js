@@ -2,7 +2,7 @@ const db = require('../models/index');
 const axios = require('axios');
 const Game = db['Game'];
 const Prediction = db['Prediction'];
-// const competition = require(__dirname + '/response1.json');
+//const competition = require(__dirname + '/response1.json');
 
 module.exports = {
   // getCompetition(req, res) {
@@ -29,7 +29,7 @@ module.exports = {
   //     competition: competition.competition.name,
   //     data: unfinishedgames,
   //   });
-  //},
+  // },
   async getCompetition(req, res) {
     try {
       const competition = await axios.get(
@@ -156,6 +156,29 @@ module.exports = {
         res.json({
           confirmation: 'success',
           data: game,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+  getGameOnline(req, res) {
+    axios
+      .get(`http://api.football-data.org/v2/matches/${req.params.game}`, {
+        headers: {
+          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+        },
+      })
+      .then((data) => {
+        // console.log(res.data.match);
+        res.json({
+          confirmation: 'success',
+          home: data.data.match.homeTeam.name,
+          away: data.data.match.awayTeam.name,
+          winner: data.data.match.score.winner,
         });
       })
       .catch((err) => {

@@ -53,6 +53,24 @@ module.exports = {
         });
       });
   },
+  findUserPredictions(req, res) {
+    Prediction.findAll({
+      where: { UserId: req.params.user },
+      include: ['games'],
+    })
+      .then((predictions) => {
+        res.json({
+          confirmation: 'success',
+          data: predictions,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
   awardPredictionUser(req, res) {
     Prediction.findAll({
       //include: [{ model: Game, as: 'games' }],

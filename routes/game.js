@@ -3,9 +3,10 @@ const router = express.Router();
 
 const {
   getGame,
+  getGames,
   createGame,
   getCompetition,
-  getGames,
+  getGameOnline,
   awardPoints,
 } = require('../controllers/game');
 
@@ -16,6 +17,7 @@ router.route('/competition').get(getCompetition);
 
 router.route('/create').post(createGame);
 router.route('/award').get(awardPoints);
+router.route('/online/:game').get(getGameOnline);
 router.route('/:id').get(getGame);
 router.route('/').get(getGames);
 
