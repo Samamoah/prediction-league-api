@@ -105,30 +105,32 @@ module.exports = {
                 },
               })
               .then((res) => {
-                if (element.winner === res.data.match.score.winner) {
-                  Game.update(
-                    {
-                      points: 3,
-                      awarded: true,
-                    },
-                    {
-                      where: { id: element.id },
-                    }
-                  )
-                    .then(() => console.log('done'))
-                    .catch((err) => console.log(err));
-                } else {
-                  Game.update(
-                    {
-                      points: 0,
-                      awarded: true,
-                    },
-                    {
-                      where: { id: element.id },
-                    }
-                  )
-                    .then(() => console.log('done'))
-                    .catch((err) => console.log(err));
+                if (res.data.match.status === 'FINISHED') {
+                  if (element.winner === res.data.match.score.winner) {
+                    Game.update(
+                      {
+                        points: 3,
+                        awarded: true,
+                      },
+                      {
+                        where: { id: element.id },
+                      }
+                    )
+                      .then(() => console.log('done'))
+                      .catch((err) => console.log(err));
+                  } else {
+                    Game.update(
+                      {
+                        points: 0,
+                        awarded: true,
+                      },
+                      {
+                        where: { id: element.id },
+                      }
+                    )
+                      .then(() => console.log('done'))
+                      .catch((err) => console.log(err));
+                  }
                 }
               })
               .catch((err) => {
