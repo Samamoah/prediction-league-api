@@ -38,7 +38,10 @@ module.exports = {
   },
   findPrediction(req, res) {
     Prediction.findAll({
-      where: { UserId: req.params.user, matchday: 3 },
+      where: {
+        UserId: req.params.user,
+        matchday: req.params.matchday,
+      },
     })
       .then((predictions) => {
         res.json({

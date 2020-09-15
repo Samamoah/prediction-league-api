@@ -1,4 +1,5 @@
 const express = require('express');
+var ejwt = require('express-jwt');
 const router = express.Router();
 
 const {
@@ -15,13 +16,23 @@ const {
 
 // router.route('/join/:Predictionid/:userid').post(joinPrediction);
 
-router.route('/create').post(createPrediction);
-router.route('/week/:user').get(findPrediction);
-router.route('/all/:user').get(findUserPredictions);
+router
+  .route('/create')
+  .post(ejwt({ secret: process.env.JWT_SECRET }), createPrediction);
+router
+  .route('/week/:user/:matchday')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), findPrediction);
+router
+  .route('/all/:user')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), findUserPredictions);
 router.route('/award/:user').get(awardPredictionUser);
-router.route('/graph/:user').get(awardPredictionGraphUser);
-router.route('/:id').get(getPrediction);
-router.route('/').get(getPredictions);
+router
+  .route('/graph/:user')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), awardPredictionGraphUser);
+router
+  .route('/:id')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), getPrediction);
+router.route('/').get(ejwt({ secret: process.env.JWT_SECRET }), getPredictions);
 
 // router.route('/update/:id').put(updateGroup);
 

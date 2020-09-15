@@ -2,11 +2,11 @@ const db = require('../models/index');
 const axios = require('axios');
 const Game = db['Game'];
 const Prediction = db['Prediction'];
-//const competition = require(__dirname + '/response1.json');
+const competition = require(__dirname + '/response1.json');
 
 module.exports = {
   // getCompetition(req, res) {
-  //   // console.log(competition);
+  //   console.log(competition);
   //   const unfinishedgames = competition.matches
   //     .map((game) => {
   //       return {
@@ -15,17 +15,18 @@ module.exports = {
   //         awayTeam: game.awayTeam.name,
   //         status: game.status,
   //         matchday: game.matchday,
+  //         currentMatchday: game.season.currentMatchday,
   //       };
   //     })
-  //     .filter((game) => game.matchday === 1)
+  //     .filter((game) => game.matchday === game.currentMatchday)
   //     .filter((game) => game.status !== 'FINISHED')
   //     .filter((game) => game.status !== 'IN_PLAY')
   //     .filter((game) => game.status !== 'POSTPONED');
 
-  //   //console.log('here', req);
+  //   console.log('here', req);
   //   res.json({
   //     confirmation: 'success',
-  //     matchday: '2',
+  //     matchday: 2,
   //     competition: competition.competition.name,
   //     data: unfinishedgames,
   //   });
@@ -50,9 +51,10 @@ module.exports = {
             awayTeam: game.awayTeam.name,
             status: game.status,
             matchday: game.matchday,
+            currentMatchday: game.season.currentMatchday,
           };
         })
-        .filter((game) => game.matchday === 2)
+        .filter((game) => game.matchday === game.currentMatchday)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED');
@@ -61,7 +63,7 @@ module.exports = {
       //console.log('here', req);
       res.json({
         confirmation: 'success',
-        matchday: '3',
+        matchday: 3,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
