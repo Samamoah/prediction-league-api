@@ -9,6 +9,7 @@ const {
   findPrediction,
   findUserPredictions,
   awardPredictionUser,
+  awardPredictionUsers,
   awardPredictionGraphUser,
 } = require('../controllers/prediction');
 
@@ -26,6 +27,7 @@ router
   .route('/all/:user')
   .get(ejwt({ secret: process.env.JWT_SECRET }), findUserPredictions);
 router.route('/award/:user').get(awardPredictionUser);
+router.route('/award/users').get(awardPredictionUsers);
 router
   .route('/graph/:user')
   .get(ejwt({ secret: process.env.JWT_SECRET }), awardPredictionGraphUser);

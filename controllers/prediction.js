@@ -128,6 +128,65 @@ module.exports = {
         });
       });
   },
+  awardPredictionUsers(req, res) {
+    User.findAll()
+      .then((users) => {
+        users.map((user) => {
+          Prediction.findAll({
+            //include: [{ model: Game, as: 'games' }],
+            include: ['games'],
+            where: { UserId: user.id },
+          })
+            .then((predictions) => {
+              //   .map((prediction) => prediction.games)
+              if (predictions.length > 0) {
+                var predgames = [];
+                for (var i = 0; i < predictions.length; i++) {
+                  var games = predictions[i].games;
+                  for (var v = 0; v < games.length; v++) {
+                    predgames.push(games[v]);
+                  }
+                }
+
+                if (predgames.length > 0) {
+                  var points = predgames
+                    .map((game) => game.points)
+                    .reduce((value, current) => value + current);
+                  User.update(
+                    {
+                      points: points,
+                    },
+                    {
+                      where: { id: req.params.user },
+                    }
+                  ).then(() => {
+                    console.log('games awarded');
+                  });
+                } else {
+                  console.log('dont have games awarded');
+                }
+              } else {
+                rconsole.log('dont have prediction games awarded');
+              }
+            })
+            .catch(() => {
+              console.log('fail');
+            });
+        });
+      })
+      .then(() => {
+        res.json({
+          confirmation: 'success',
+          message: 'awarded',
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
   awardPredictionGraphUser(req, res) {
     Prediction.findAll({
       //include: [{ model: Game, as: 'games' }],
