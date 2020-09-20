@@ -8,6 +8,7 @@ const {
   createGame,
   getCompetition,
   getGameOnline,
+  getOnlineGames,
   awardPoints,
 } = require('../controllers/game');
 
@@ -16,6 +17,9 @@ const {
 router
   .route('/competition')
   .get(ejwt({ secret: process.env.JWT_SECRET }), getCompetition);
+router
+  .route('/online')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), getOnlineGames);
 // router.route('/join/:Gameid/:userid').post(joinGame);
 
 router

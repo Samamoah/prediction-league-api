@@ -31,6 +31,27 @@ module.exports = {
   //     data: unfinishedgames,
   //   });
   // },
+  async getOnlineGames(req, res) {
+    const competition = await axios.get(
+      //`http://api.football-data.org/v2/matches/`,
+      `http://api.football-data.org/v2/competitions/2021/matches/`,
+      {
+        headers: {
+          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+        },
+      }
+    );
+
+    const searchgames = competition.matches.map((game) => {
+      return {
+        id: game.id,
+        home: game.homeTeam.name,
+        away: game.awayTeam.name,
+        winner: game.score.winner,
+      };
+    });
+    res.send(searchgames);
+  },
   async getCompetition(req, res) {
     try {
       const competition = await axios.get(
@@ -106,54 +127,54 @@ module.exports = {
       .then((games) => {
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
-          var state = element.awarded;
+          //  var state = element.awarded;
           // console.log(element.awarded);
           var id = element.gameId;
-          if (!state) {
-            //console.log(id);
+          //  if (!state) {
+          //console.log(id);
 
-            const scoregame = competition.data.matches
-              .map((game) => game)
-              .map((game) => {
-                return {
-                  id: game.id,
-                  winner: game.score.winner,
-                  status: game.status,
-                };
-              })
-              .filter((game) => game.id === id);
+          const scoregame = competition.data.matches
+            .map((game) => game)
+            .map((game) => {
+              return {
+                id: game.id,
+                winner: game.score.winner,
+                status: game.status,
+              };
+            })
+            .filter((game) => game.id === id);
 
-            //console.log(scoregame[0]);
+          //console.log(scoregame[0]);
 
-            if (scoregame[0].status === 'FINISHED') {
-              if (element.winner === scoregame[0].winner) {
-                Game.update(
-                  {
-                    points: 3,
-                    awarded: true,
-                  },
-                  {
-                    where: { id: element.id },
-                  }
-                )
-                  .then(() => console.log('done'))
-                  .catch((err) => console.log(err));
-              } else {
-                Game.update(
-                  {
-                    points: 0,
-                    awarded: true,
-                  },
-                  {
-                    where: { id: element.id },
-                  }
-                )
-                  .then(() => console.log('done'))
-                  .catch((err) => console.log(err));
-              }
+          if (scoregame[0].status === 'FINISHED') {
+            if (element.winner === scoregame[0].winner) {
+              Game.update(
+                {
+                  points: 3,
+                  awarded: true,
+                },
+                {
+                  where: { id: element.id },
+                }
+              )
+                .then(() => console.log('done'))
+                .catch((err) => console.log(err));
+            } else {
+              Game.update(
+                {
+                  points: 0,
+                  awarded: true,
+                },
+                {
+                  where: { id: element.id },
+                }
+              )
+                .then(() => console.log('done'))
+                .catch((err) => console.log(err));
             }
           }
         }
+        //  }
         res.json({
           confirmation: 'success',
           message: 'Awarding points excuted',
