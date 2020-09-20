@@ -100,20 +100,33 @@ module.exports = {
         },
       }
     );
+
+    //console.log(competition.data.matches);
     Game.findAll({ raw: true })
       .then((games) => {
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           var state = element.awarded;
+          // console.log(element.awarded);
           var id = element.gameId;
           if (!state) {
             //console.log(id);
+
             const scoregame = competition.data.matches
               .map((game) => game)
+              .map((game) => {
+                return {
+                  id: game.id,
+                  winner: game.score.winner,
+                  status: game.status,
+                };
+              })
               .filter((game) => game.id === id);
 
-            if (scoregame.status === 'FINISHED') {
-              if (element.winner === scoregame.score.winner) {
+            //console.log(scoregame[0]);
+
+            if (scoregame[0].status === 'FINISHED') {
+              if (element.winner === scoregame[0].winner) {
                 Game.update(
                   {
                     points: 3,
