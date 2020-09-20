@@ -26,8 +26,8 @@ router
 router
   .route('/all/:user')
   .get(ejwt({ secret: process.env.JWT_SECRET }), findUserPredictions);
+router.route('/score/users').put(awardPredictionUsers);
 router.route('/award/:user').get(awardPredictionUser);
-router.route('/award/users').get(awardPredictionUsers);
 router
   .route('/graph/:user')
   .get(ejwt({ secret: process.env.JWT_SECRET }), awardPredictionGraphUser);

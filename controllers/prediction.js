@@ -131,7 +131,8 @@ module.exports = {
   awardPredictionUsers(req, res) {
     User.findAll()
       .then((users) => {
-        users.map((user) => {
+        console.log(users);
+        users.forEach((user) => {
           Prediction.findAll({
             //include: [{ model: Game, as: 'games' }],
             include: ['games'],
@@ -157,16 +158,12 @@ module.exports = {
                       points: points,
                     },
                     {
-                      where: { id: req.params.user },
+                      where: { id: user.id },
                     }
                   ).then(() => {
-                    console.log('games awarded');
+                    console.log('user awarded');
                   });
-                } else {
-                  console.log('dont have games awarded');
                 }
-              } else {
-                rconsole.log('dont have prediction games awarded');
               }
             })
             .catch(() => {

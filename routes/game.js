@@ -21,7 +21,7 @@ router
 router
   .route('/create')
   .post(ejwt({ secret: process.env.JWT_SECRET }), createGame);
-router.route('/award').get(awardPoints);
+router.route('/award').put(awardPoints);
 router
   .route('/online/:game')
   .get(ejwt({ secret: process.env.JWT_SECRET }), getGameOnline);
