@@ -131,7 +131,6 @@ module.exports = {
   awardPredictionUsers(req, res) {
     User.findAll()
       .then((users) => {
-        console.log(users);
         users.forEach((user) => {
           Prediction.findAll({
             //include: [{ model: Game, as: 'games' }],
