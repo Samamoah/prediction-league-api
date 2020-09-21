@@ -32,25 +32,34 @@ module.exports = {
   //   });
   // },
   async getOnlineGames(req, res) {
-    const competition = await axios.get(
-      //`http://api.football-data.org/v2/matches/`,
-      `http://api.football-data.org/v2/competitions/2021/matches/`,
-      {
-        headers: {
-          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-        },
-      }
-    );
+    try {
+      const competition = await axios.get(
+        //`http://api.football-data.org/v2/matches/`,
+        `http://api.football-data.org/v2/competitions/2021/matches/`,
+        {
+          headers: {
+            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+          },
+        }
+      );
 
-    const searchgames = competition.matches.map((game) => {
-      return {
-        id: game.id,
-        home: game.homeTeam.name,
-        away: game.awayTeam.name,
-        winner: game.score.winner,
-      };
-    });
-    res.send(searchgames);
+      const searchgames = competition.matches.map((game) => {
+        return {
+          id: game.id,
+          home: game.homeTeam.name,
+          away: game.awayTeam.name,
+          winner: game.score.winner,
+        };
+      });
+      res.json({ data: searchgames });
+    } catch (err) {
+      res.json({
+        confirmation: 'fail',
+        name: err.name,
+        message: err.message,
+        data: [],
+      });
+    }
   },
   async getCompetition(req, res) {
     try {
