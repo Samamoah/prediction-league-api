@@ -18,7 +18,7 @@ router
   .route('/competition')
   .get(ejwt({ secret: process.env.JWT_SECRET }), getCompetition);
 router
-  .route('/online')
+  .route('/games')
   .get(ejwt({ secret: process.env.JWT_SECRET }), getOnlineGames);
 // router.route('/join/:Gameid/:userid').post(joinGame);
 
