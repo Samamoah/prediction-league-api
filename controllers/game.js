@@ -43,7 +43,7 @@ module.exports = {
         }
       );
 
-      const searchgames = competition.matches.map((game) => {
+      const searchgames = competition.data.matches.map((game) => {
         return {
           id: game.id,
           home: game.homeTeam.name,
