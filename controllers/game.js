@@ -143,7 +143,6 @@ module.exports = {
           //console.log(id);
 
           const scoregame = competition.data.matches
-            .map((game) => game)
             .map((game) => {
               return {
                 id: game.id,
@@ -182,8 +181,8 @@ module.exports = {
                 .catch((err) => console.log(err));
             }
           }
+          //}
         }
-        //  }
         res.json({
           confirmation: 'success',
           message: 'Awarding points excuted',
@@ -196,75 +195,7 @@ module.exports = {
         });
       });
   },
-  // awardPoints  (req, res) {
-  //   const competition = await axios.get(
-  //     `http://api.football-data.org/v2/competitions/2021/matches/`,
-  //     {
-  //       headers: {
-  //         'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-  //       },
-  //     }
-  //   );
-  //   Game.findAll({ raw: true })
-  //     .then((games) => {
-  //       for (let i = 0; i < games.length; i++) {
-  //         const element = games[i];
-  //         var state = element.awarded;
-  //         var id = element.gameId;
-  //         if (!state) {
-  //           //console.log(id);
-  //           axios
-  //             .get(`http://api.football-data.org/v2/matches/${id}`, {
-  //               headers: {
-  //                 'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-  //               },
-  //             })
-  //             .then((res) => {
-  //               if (res.data.match.status === 'FINISHED') {
-  //                 if (element.winner === res.data.match.score.winner) {
-  //                   Game.update(
-  //                     {
-  //                       points: 3,
-  //                       awarded: true,
-  //                     },
-  //                     {
-  //                       where: { id: element.id },
-  //                     }
-  //                   )
-  //                     .then(() => console.log('done'))
-  //                     .catch((err) => console.log(err));
-  //                 } else {
-  //                   Game.update(
-  //                     {
-  //                       points: 0,
-  //                       awarded: true,
-  //                     },
-  //                     {
-  //                       where: { id: element.id },
-  //                     }
-  //                   )
-  //                     .then(() => console.log('done'))
-  //                     .catch((err) => console.log(err));
-  //                 }
-  //               }
-  //             })
-  //             .catch((err) => {
-  //               console.log(err);
-  //             });
-  //         }
-  //       }
-  //       res.json({
-  //         confirmation: 'success',
-  //         message: 'Awarding points excuted',
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       res.json({
-  //         confirmation: 'fail',
-  //         message: err,
-  //       });
-  //     });
-  // },
+
   getGames(req, res) {
     Game.findAll({
       include: [{ model: Prediction }],
