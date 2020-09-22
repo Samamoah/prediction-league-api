@@ -133,16 +133,16 @@ module.exports = {
     console.log(competition);
     Game.findAll({ raw: true })
       .then((games) => {
-        console.log(games);
+        // console.log(games);
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           //  var state = element.awarded;
           // console.log(element.awarded);
           var id = element.gameId;
-          var gameid = element.id;
-          console.log(id);
-          console.log(gameid);
-          if (gameid.toString() !== '1') {
+          // var gameid = element.id;
+          //console.log(id);
+          // console.log(gameid);
+          if (id !== 303625) {
             const scoregame = competition.data.matches
               .map((game) => {
                 return {
@@ -153,7 +153,7 @@ module.exports = {
               })
               .filter((game) => game.id === id);
 
-            console.log(scoregame);
+            //  console.log(scoregame);
 
             if (scoregame[0].status === 'FINISHED') {
               if (element.winner === scoregame[0].winner) {
