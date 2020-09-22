@@ -140,50 +140,50 @@ module.exports = {
           //  var state = element.awarded;
           // console.log(element.awarded);
           var id = element.gameId;
-          //  if (!state) {
-          //console.log(id);
-          console.log('here 3');
-          const scoregame = competition.data.matches
-            .map((game) => {
-              return {
-                id: game.id,
-                winner: game.score.winner,
-                status: game.status,
-              };
-            })
-            .filter((game) => game.id === id);
+          if (element.id !== 1) {
+            //console.log(id);
+            console.log('here 3');
+            const scoregame = competition.data.matches
+              .map((game) => {
+                return {
+                  id: game.id,
+                  winner: game.score.winner,
+                  status: game.status,
+                };
+              })
+              .filter((game) => game.id === id);
 
-          console.log(scoregame);
-          console.log('here 4');
+            console.log(scoregame);
+            console.log('here 4');
 
-          if (scoregame[0].status === 'FINISHED') {
-            if (element.winner === scoregame[0].winner) {
-              Game.update(
-                {
-                  points: 3,
-                  awarded: true,
-                },
-                {
-                  where: { id: element.id },
-                }
-              )
-                .then(() => console.log('done'))
-                .catch((err) => console.log(err));
-            } else {
-              Game.update(
-                {
-                  points: 0,
-                  awarded: true,
-                },
-                {
-                  where: { id: element.id },
-                }
-              )
-                .then(() => console.log('done'))
-                .catch((err) => console.log(err));
+            if (scoregame[0].status === 'FINISHED') {
+              if (element.winner === scoregame[0].winner) {
+                Game.update(
+                  {
+                    points: 3,
+                    awarded: true,
+                  },
+                  {
+                    where: { id: element.id },
+                  }
+                )
+                  .then(() => console.log('done'))
+                  .catch((err) => console.log(err));
+              } else {
+                Game.update(
+                  {
+                    points: 0,
+                    awarded: true,
+                  },
+                  {
+                    where: { id: element.id },
+                  }
+                )
+                  .then(() => console.log('done'))
+                  .catch((err) => console.log(err));
+              }
             }
           }
-          //}
         }
         res.json({
           confirmation: 'success',
