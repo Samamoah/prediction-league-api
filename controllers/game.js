@@ -136,13 +136,11 @@ module.exports = {
         // console.log(games);
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
-          //  var state = element.awarded;
-          // console.log(element.awarded);
+          var state = element.awarded;
+          ss;
           var id = element.gameId;
-          // var gameid = element.id;
-          //console.log(id);
-          // console.log(gameid);
-          if (id !== 303625) {
+
+          if (!state) {
             const scoregame = competition.data.matches
               .map((game) => {
                 return {
@@ -152,8 +150,6 @@ module.exports = {
                 };
               })
               .filter((game) => game.id === id);
-
-            //  console.log(scoregame);
 
             if (scoregame[0].status === 'FINISHED') {
               if (element.winner === scoregame[0].winner) {
