@@ -153,7 +153,7 @@ module.exports = {
             })
             .filter((game) => game.id === id);
 
-          //console.log(scoregame[0]);
+          console.log(scoregame);
           console.log('here 4');
 
           if (scoregame[0].status === 'FINISHED') {
