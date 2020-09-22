@@ -140,6 +140,8 @@ module.exports = {
           // console.log(element.awarded);
           var id = element.gameId;
           var gameid = element.id;
+          console.log(id);
+          console.log(gameid);
           if (gameid.toString() !== '1') {
             const scoregame = competition.data.matches
               .map((game) => {
