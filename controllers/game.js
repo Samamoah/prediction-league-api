@@ -128,8 +128,9 @@ module.exports = {
         headers: {
           'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
         },
-
-    // console.log(competition);
+      }
+    );
+    console.log(competition);
     Game.findAll({ raw: true })
       .then((games) => {
         console.log(games);
