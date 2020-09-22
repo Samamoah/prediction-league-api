@@ -128,21 +128,18 @@ module.exports = {
         headers: {
           'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
         },
-      }
-    );
 
     // console.log(competition);
     Game.findAll({ raw: true })
       .then((games) => {
-        console.log('here 2');
+        console.log(games);
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           //  var state = element.awarded;
           // console.log(element.awarded);
           var id = element.gameId;
-          if (element.id > 1) {
-            //console.log(id);
-            //console.log('here 3');
+          var gameid = element.id;
+          if (gameid.toString() !== '1') {
             const scoregame = competition.data.matches
               .map((game) => {
                 return {
@@ -154,7 +151,6 @@ module.exports = {
               .filter((game) => game.id === id);
 
             console.log(scoregame);
-            //console.log('here 4');
 
             if (scoregame[0].status === 'FINISHED') {
               if (element.winner === scoregame[0].winner) {
