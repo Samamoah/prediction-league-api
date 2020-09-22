@@ -131,7 +131,7 @@ module.exports = {
       }
     );
 
-    console.log('here');
+    console.log(competition);
     Game.findAll({ raw: true })
       .then((games) => {
         console.log('here 2');
