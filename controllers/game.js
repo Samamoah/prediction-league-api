@@ -140,7 +140,7 @@ module.exports = {
           //  var state = element.awarded;
           // console.log(element.awarded);
           var id = element.gameId;
-          if (element.id !== 1) {
+          if (element.id > 1) {
             //console.log(id);
             //console.log('here 3');
             const scoregame = competition.data.matches
