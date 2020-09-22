@@ -131,9 +131,10 @@ module.exports = {
       }
     );
 
-    //console.log(competition.data.matches);
+    console.log('here');
     Game.findAll({ raw: true })
       .then((games) => {
+        console.log('here 2');
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           //  var state = element.awarded;
@@ -141,7 +142,7 @@ module.exports = {
           var id = element.gameId;
           //  if (!state) {
           //console.log(id);
-
+          console.log('here 3');
           const scoregame = competition.data.matches
             .map((game) => {
               return {
@@ -153,6 +154,7 @@ module.exports = {
             .filter((game) => game.id === id);
 
           //console.log(scoregame[0]);
+          console.log('here 4');
 
           if (scoregame[0].status === 'FINISHED') {
             if (element.winner === scoregame[0].winner) {
