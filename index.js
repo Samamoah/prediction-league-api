@@ -47,7 +47,7 @@ app.use('/user', require('./routes/user.js'));
 app.use('/game', require('./routes/game.js'));
 app.use('/prediction', require('./routes/prediction.js'));
 
-var port = process.env.PORT || 5030;
+var port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Server start at port ${port}`);

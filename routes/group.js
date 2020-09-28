@@ -13,10 +13,14 @@ const {
   createGroup,
   getUserGroups,
 } = require('../controllers/group');
+//const { getUsersGroups, getUGroup } = require('../controllers/groupspoints');
 
 router
   .route('/authuser/:id')
   .get(ejwt({ secret: process.env.JWT_SECRET }), getUserGroups);
+// router
+//   .route('/authuser/:id')
+//   .get(ejwt({ secret: process.env.JWT_SECRET }), getUsersGroups);
 router
   .route('/join/:code/:UserId')
   .post(ejwt({ secret: process.env.JWT_SECRET }), joinGroupByCode);
@@ -39,6 +43,7 @@ router
   .route('/search/:term')
   .get(ejwt({ secret: process.env.JWT_SECRET }), searchGroup);
 router.route('/:id').get(getGroup);
+// router.route('/:id').get(getUGroup);
 router.route('/').get(getGroups);
 
 module.exports = router;

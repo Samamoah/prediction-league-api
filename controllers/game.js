@@ -5,32 +5,32 @@ const Prediction = db['Prediction'];
 const competition = require(__dirname + '/response1.json');
 
 module.exports = {
-  // getCompetition(req, res) {
-  //   console.log(competition);
-  //   const unfinishedgames = competition.matches
-  //     .map((game) => {
-  //       return {
-  //         id: game.id,
-  //         homeTeam: game.homeTeam.name,
-  //         awayTeam: game.awayTeam.name,
-  //         status: game.status,
-  //         matchday: game.matchday,
-  //         currentMatchday: game.season.currentMatchday,
-  //       };
-  //     })
-  //     .filter((game) => game.matchday === game.currentMatchday)
-  //     .filter((game) => game.status !== 'FINISHED')
-  //     .filter((game) => game.status !== 'IN_PLAY')
-  //     .filter((game) => game.status !== 'POSTPONED');
+  getCompetition(req, res) {
+    console.log(competition);
+    const unfinishedgames = competition.matches
+      .map((game) => {
+        return {
+          id: game.id,
+          homeTeam: game.homeTeam.name,
+          awayTeam: game.awayTeam.name,
+          status: game.status,
+          matchday: game.matchday,
+          currentMatchday: game.season.currentMatchday,
+        };
+      })
+      .filter((game) => game.matchday === game.currentMatchday)
+      .filter((game) => game.status !== 'FINISHED')
+      .filter((game) => game.status !== 'IN_PLAY')
+      .filter((game) => game.status !== 'POSTPONED');
 
-  //   console.log('here', req);
-  //   res.json({
-  //     confirmation: 'success',
-  //     matchday: 2,
-  //     competition: competition.competition.name,
-  //     data: unfinishedgames,
-  //   });
-  // },
+    console.log('here', req);
+    res.json({
+      confirmation: 'success',
+      matchday: 2,
+      competition: competition.competition.name,
+      data: unfinishedgames,
+    });
+  },
   async getOnlineGames(req, res) {
     try {
       const competition = await axios.get(
@@ -61,51 +61,51 @@ module.exports = {
       });
     }
   },
-  async getCompetition(req, res) {
-    try {
-      const competition = await axios.get(
-        `http://api.football-data.org/v2/competitions/2021/matches/`,
-        {
-          headers: {
-            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-          },
-        }
-      );
+  // async getCompetition(req, res) {
+  //   try {
+  //     const competition = await axios.get(
+  //       `http://api.football-data.org/v2/competitions/2021/matches/`,
+  //       {
+  //         headers: {
+  //           'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+  //         },
+  //       }
+  //     );
 
-      // console.log(competition);
-      const unfinishedgames = competition.data.matches
-        .map((game) => {
-          return {
-            id: game.id,
-            homeTeam: game.homeTeam.name,
-            awayTeam: game.awayTeam.name,
-            status: game.status,
-            matchday: game.matchday,
-            currentMatchday: game.season.currentMatchday,
-          };
-        })
-        .filter((game) => game.matchday === 3)
-        .filter((game) => game.status !== 'IN_PLAY')
-        .filter((game) => game.status !== 'PAUSED')
-        .filter((game) => game.status !== 'FINISHED');
-      // .filter((game) => game.status !== 'POSTPONED');
+  //     // console.log(competition);
+  //     const unfinishedgames = competition.data.matches
+  //       .map((game) => {
+  //         return {
+  //           id: game.id,
+  //           homeTeam: game.homeTeam.name,
+  //           awayTeam: game.awayTeam.name,
+  //           status: game.status,
+  //           matchday: game.matchday,
+  //           currentMatchday: game.season.currentMatchday,
+  //         };
+  //       })
+  //       .filter((game) => game.matchday === 3)
+  //       .filter((game) => game.status !== 'IN_PLAY')
+  //       .filter((game) => game.status !== 'PAUSED')
+  //       .filter((game) => game.status !== 'FINISHED');
+  //     // .filter((game) => game.status !== 'POSTPONED');
 
-      //console.log('here', req);
-      res.json({
-        confirmation: 'success',
-        matchday: 4,
-        competition: competition.data.competition.name,
-        data: unfinishedgames,
-      });
-    } catch (err) {
-      res.json({
-        confirmation: 'fail',
-        name: err.name,
-        message: err.message,
-        data: [],
-      });
-    }
-  },
+  //     //console.log('here', req);
+  //     res.json({
+  //       confirmation: 'success',
+  //       matchday: 4,
+  //       competition: competition.data.competition.name,
+  //       data: unfinishedgames,
+  //     });
+  //   } catch (err) {
+  //     res.json({
+  //       confirmation: 'fail',
+  //       name: err.name,
+  //       message: err.message,
+  //       data: [],
+  //     });
+  //   }
+  // },
   getGame(req, res) {
     Game.findByPk(req.params.id, { include: ['predictionweek'] })
       .then((game) => {
