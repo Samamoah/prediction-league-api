@@ -137,7 +137,7 @@ module.exports = {
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           var state = element.awarded;
-          ss;
+
           var id = element.gameId;
 
           if (!state) {
