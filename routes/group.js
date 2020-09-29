@@ -4,23 +4,23 @@ const router = express.Router();
 
 const {
   getGroups,
-  getGroup,
+  //  getGroup,
   searchGroup,
   updateGroup,
   deleteGroup,
   joinGroup,
   joinGroupByCode,
   createGroup,
-  getUserGroups,
+  //  getUserGroups,
 } = require('../controllers/group');
-//const { getUsersGroups, getUGroup } = require('../controllers/groupspoints');
+const { getUsersGroups, getUGroup } = require('../controllers/groupspoints');
 
-router
-  .route('/authuser/:id')
-  .get(ejwt({ secret: process.env.JWT_SECRET }), getUserGroups);
 // router
 //   .route('/authuser/:id')
-//   .get(ejwt({ secret: process.env.JWT_SECRET }), getUsersGroups);
+// .get(ejwt({ secret: process.env.JWT_SECRET }), getUserGroups);
+router
+  .route('/authuser/:id')
+  .get(ejwt({ secret: process.env.JWT_SECRET }), getUsersGroups);
 router
   .route('/join/:code/:UserId')
   .post(ejwt({ secret: process.env.JWT_SECRET }), joinGroupByCode);
@@ -42,8 +42,8 @@ router
 router
   .route('/search/:term')
   .get(ejwt({ secret: process.env.JWT_SECRET }), searchGroup);
-router.route('/:id').get(getGroup);
-// router.route('/:id').get(getUGroup);
+// router.route('/:id').get(getGroup);
+router.route('/:id').get(getUGroup);
 router.route('/').get(getGroups);
 
 module.exports = router;
