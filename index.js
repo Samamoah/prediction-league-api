@@ -46,6 +46,7 @@ app.use('/group', require('./routes/group.js'));
 app.use('/user', require('./routes/user.js'));
 app.use('/game', require('./routes/game.js'));
 app.use('/prediction', require('./routes/prediction.js'));
+app.use('/email', require('./routes/email.js'));
 
 var port = process.env.PORT || 5000;
 

@@ -138,12 +138,13 @@ module.exports = {
     }
   },
   createGroup(req, res) {
-    let { name, UserId } = req.body;
+    let { name, UserId, private } = req.body;
 
     Group.create({
       name,
       code: parseInt(Math.floor(100000 + Math.random() * 900000)),
       UserId,
+      private,
     })
       .then(async (newgroup) => {
         var group = await Group.findOne(
