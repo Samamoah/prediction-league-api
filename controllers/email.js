@@ -6,8 +6,8 @@ const db = require('../models/index');
 const User = db['User'];
 
 const client = new SMTPClient({
-  user: 'samuelamoahtetteh@gmail.com',
-  password: '1892.Anfield',
+  user: 'predictionleagueonline@gmail.com',
+  password: 'predictionleagueonline',
   host: 'smtp.gmail.com',
   ssl: true,
   post: 465,
