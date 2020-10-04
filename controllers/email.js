@@ -16,7 +16,7 @@ const client = new SMTPClient({
 // send the message and get a callback with an error or details of the message that was sent
 
 module.exports = {
-  sendMail(req, res) {
+  sendMatchdayMail(req, res) {
     User.findAll()
       .then((users) => {
         users.forEach((user) => {
@@ -26,6 +26,41 @@ module.exports = {
               Hello ${user.name},
 
               Don't forget to predict Gameweek 5 games
+              
+              Regards
+              `,
+              from: 'samuelamoahtetteh@gmail.com',
+              to: user.email,
+              //cc: 'else <else@your-email.com>',
+              subject: 'Prediction League',
+            },
+            (err, message) => {
+              console.log(err || message);
+            }
+          );
+        });
+        res.json({
+          confirmation: 'success',
+          data: 'done',
+        });
+      })
+      .catch((err) => {
+        res.json({
+          confirmation: 'fail',
+          message: err,
+        });
+      });
+  },
+  sendPointsMail(req, res) {
+    User.findAll()
+      .then((users) => {
+        users.forEach((user) => {
+          client.send(
+            {
+              text: `
+              Hello ${user.name},
+
+              This gameweek points have been awarded
               
               Regards
               `,

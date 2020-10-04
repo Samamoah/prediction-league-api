@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { sendMail } = require('../controllers/email');
+const { sendMatchdayMail, sendPointsMail } = require('../controllers/email');
 
 //router.route('/').get(getGames);
 
-router.route('/').post(sendMail);
+router.route('/matchday').post(sendMatchdayMail);
+router.route('/points').post(sendPointsMail);
 // router.route('/join/:Gameid/:userid').post(joinGame);
 
 module.exports = router;
