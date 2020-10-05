@@ -35,7 +35,7 @@ module.exports = {
               subject: 'Prediction League',
             },
             (err, message) => {
-              console.log(err || message);
+              console.log(err || 'done');
             }
           );
         });
@@ -70,7 +70,7 @@ module.exports = {
               subject: 'Prediction League',
             },
             (err, message) => {
-              console.log(err || message);
+              console.log(err || 'done');
             }
           );
         });
