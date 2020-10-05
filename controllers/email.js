@@ -7,7 +7,7 @@ const User = db['User'];
 
 const client = new SMTPClient({
   user: 'predictionleagueonline@gmail.com',
-  password: 'predictionleagueonline',
+  password: 'predictionleague',
   host: 'smtp.gmail.com',
   ssl: true,
   post: 465,
