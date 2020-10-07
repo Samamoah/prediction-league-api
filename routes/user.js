@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+var ejwt = require('express-jwt');
 
 const {
   getUsers,
@@ -11,6 +12,7 @@ const {
   twitterOAuth,
   twitterReq,
   twitterReverse,
+  updateUser,
 } = require('../controllers/user');
 // const passportGoogle = passport.authenticate('google', {
 //     scope: [
@@ -55,6 +57,7 @@ router
 // router.route('/auth/google/callback').get(passportCallback);
 // router.route('/auth/google/success').get(googleOAuth);
 router.route('/logout').get(logOut);
+router.route('/update/:id').put(ejwt({ secret: process.env.JWT_SECRET }), updateUser);
 router.route('/:id').get(getUser);
 router.route('/').get(getUsers);
 
