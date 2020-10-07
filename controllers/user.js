@@ -40,16 +40,17 @@ module.exports = {
   updateUser(req, res) {
     User.findByPk(req.params.id)
       .then((user) => {
-        if(user){
-          user.update({
-            name: req.body.name
-          }).then(() => {
-
-        res.json({
-          confirmation: 'success',
-          data: 'done',
-        });
-          })
+        if (user) {
+          user
+            .update({
+              name: req.body.name,
+            })
+            .then(() => {
+              res.json({
+                confirmation: 'success',
+                data: 'done1',
+              });
+            });
         }
         res.json({
           confirmation: 'success',
