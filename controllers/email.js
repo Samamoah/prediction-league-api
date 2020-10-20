@@ -25,7 +25,8 @@ module.exports = {
               text: `
               Hello ${user.name},
 
-              Don't forget to predict Gameweek 6 games
+              Don't forget to predict Gameweek 7 games
+              Uefa Champions League gameweek, hurrraaaayyyy
               
               Regards
               `,
