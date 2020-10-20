@@ -27,6 +27,10 @@ module.exports = {
 
               Don't forget to predict Gameweek 7 games
               Uefa Champions League gameweek, hurrraaaayyyy
+
+              NB: It is for this UCL gameweek thus this week 
+              and next week.
+              You have to predict both this week.
               
               Regards
               `,

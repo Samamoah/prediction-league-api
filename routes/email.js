@@ -9,4 +9,4 @@ router.route('/matchday').post(sendMatchdayMail);
 router.route('/points').post(sendPointsMail);
 // router.route('/join/:Gameid/:userid').post(joinGame);
 
-module.exports = router;
+module.exports = router; 
