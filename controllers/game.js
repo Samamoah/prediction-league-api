@@ -136,15 +136,29 @@ module.exports = {
       });
   },
   async awardPoints(req, res) {
-    const competition = await axios.get(
-      `http://api.football-data.org/v2/competitions/2021/matches/`,
-      {
-        headers: {
-          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-        },
-      }
-    );
-    console.log(competition);
+     const competition = await axios.get(
+        //`http://api.football-data.org/v2/matches/`,
+        `http://api.football-data.org/v2/competitions/2021/matches/`,
+        {
+          headers: {
+            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+          },
+        }
+      );
+
+      const ucl = await axios.get(
+        //`http://api.football-data.org/v2/matches/`,
+        `http://api.football-data.org/v2/competitions/2001/matches/`,
+        {
+          headers: {
+            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+          },
+        }
+      );
+
+
+      const all = [...competition.data.matches, ...ucl.data.matches]
+
     Game.findAll({ raw: true })
       .then((games) => {
         // console.log(games);
@@ -155,7 +169,7 @@ module.exports = {
           var id = element.gameId;
 
           if (!state) {
-            const scoregame = competition.data.matches
+            const scoregame = all
               .map((game) => {
                 return {
                   id: game.id,

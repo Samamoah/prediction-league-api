@@ -25,12 +25,7 @@ module.exports = {
               text: `
               Hello ${user.name},
 
-              Don't forget to predict Gameweek 7 games
-              Uefa Champions League gameweek, hurrraaaayyyy
-
-              NB: It is for this UCL gameweek thus this week 
-              and next week.
-              You have to predict both this week.
+              Don't forget to predict Gameweek 8 games. Premier League games
               
               Regards
               `,
