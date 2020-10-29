@@ -76,7 +76,7 @@ module.exports = {
   async getCompetition(req, res) {
     try {
       const competition = await axios.get(
-        `http://api.football-data.org/v2/competitions/2001/matches/`,
+        `http://api.football-data.org/v2/competitions/2021/matches/`,
         {
           headers: {
             'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
@@ -96,7 +96,7 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })
-        .filter((game) => game.matchday === 2)
+        .filter((game) => game.matchday === 7)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED');
@@ -107,7 +107,7 @@ module.exports = {
       //console.log('here', req);
       res.json({
         confirmation: 'success',
-        matchday: 9,
+        matchday: 10,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
