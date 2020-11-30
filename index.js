@@ -15,6 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('anything'));
 
+app.set('views', __dirname + '/public');
+app.set('view engine', 'jade');
+
+app.use(express.static(__dirname + '/public'));
+
 app.use(
   session({
     secret: 'anything',
@@ -47,7 +52,9 @@ app.use('/user', require('./routes/user.js'));
 app.use('/game', require('./routes/game.js'));
 app.use('/prediction', require('./routes/prediction.js'));
 app.use('/email', require('./routes/email.js'));
-
+app.get('/test', (req, res) => {
+  res.render('mailplates/test');
+});
 var port = process.env.PORT || 5000;
 
 app.listen(port, () => {

@@ -1,17 +1,7 @@
-const { SMTPClient } = require('emailjs');
-
 const db = require('../models/index');
+const {client} = require('../config/email');
 
-//const request = require('request');
 const User = db['User'];
-
-const client = new SMTPClient({
-  user: 'predictionleagueonline@gmail.com',
-  password: 'predictionleague',
-  host: 'smtp.gmail.com',
-  ssl: true,
-  post: 465,
-});
 
 // send the message and get a callback with an error or details of the message that was sent
 
@@ -24,12 +14,10 @@ module.exports = {
             {
               text: `
               Hello ${user.name},
-
-              Don't forget to predict Gameweek 14 games. Champions League games. The gameweek starts today
-              
+              Don't forget to predict Gameweek 14 games. Champions League games. The gameweek starts today              
               Regards
               `,
-              from: 'samuelamoahtetteh@gmail.com',
+              from: 'no-reply@predictionleague.com',
               to: user.email,
               //cc: 'else <else@your-email.com>',
               subject: 'Prediction League',
@@ -59,12 +47,10 @@ module.exports = {
             {
               text: `
               Hello ${user.name},
-
-              This gameweek points have been awarded
-              
+              This gameweek points have been awarded              
               Regards
               `,
-              from: 'samuelamoahtetteh@gmail.com',
+              from: 'no-reply@predictionleague.com',
               to: user.email,
               //cc: 'else <else@your-email.com>',
               subject: 'Prediction League',

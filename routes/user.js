@@ -10,9 +10,13 @@ const {
   logOut,
   googleOAuth,
   twitterOAuth,
+  register,
+  logIn,
   twitterReq,
   twitterReverse,
+  reset,
   updateUser,
+  changePassword,
 } = require('../controllers/user');
 // const passportGoogle = passport.authenticate('google', {
 //     scope: [
@@ -57,7 +61,14 @@ router
 // router.route('/auth/google/callback').get(passportCallback);
 // router.route('/auth/google/success').get(googleOAuth);
 router.route('/logout').get(logOut);
-router.route('/update/:id').put(ejwt({ secret: process.env.JWT_SECRET }), updateUser);
+router.route('/login').post(logIn);
+router.route('/register').post(register);
+router.route('/reset-password').post(reset);
+router.route('/change-password').post(changePassword);
+
+router
+  .route('/update/:id')
+  .put(ejwt({ secret: process.env.JWT_SECRET }), updateUser);
 router.route('/:id').get(getUser);
 router.route('/').get(getUsers);
 

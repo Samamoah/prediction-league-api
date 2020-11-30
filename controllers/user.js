@@ -1,5 +1,11 @@
 const JWT = require('jsonwebtoken');
+const sequelize = require('sequelize');
 const db = require('../models/index');
+const { client } = require('../config/email');
+const bcrypt = require('bcryptjs');
+const Op = sequelize.Op;
+const crypto = require('crypto');
+const jade = require('jade');
 
 const request = require('request');
 const User = db['User'];
@@ -22,6 +28,203 @@ signToken = (user) => {
 };
 
 module.exports = {
+  register(req, res) {
+    const { username, email, password } = req.body;
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, async (err, hash) => {
+        try {
+          var user = await User.findOrCreate({
+            include: { all: true },
+            where: { email: email },
+            defaults: {
+              name: username,
+              email: email,
+              picture: '',
+              password: hash,
+            },
+          });
+          res.json({ data: user });
+        } catch (err) {
+          res.send(err);
+        }
+      });
+    });
+  },
+  logIn(req, res) {
+    var { email, password } = req.body;
+    if (!email || !password) {
+      res.json({
+        confirmation: 'fail',
+        message: 'Enter Email and Password',
+      });
+    } else {
+      User.findOne({ where: { email: email } }).then((user) => {
+        if (!user) {
+          res.json({
+            confirmation: 'fail',
+            message: 'Email not found',
+          });
+        } else {
+          bcrypt.compare(password, user.password).then(async (isMatch, err) => {
+            if (isMatch) {
+              const token = await signToken(user);
+              return res.status(200).json({ user: user, token });
+            } else {
+              res.json({
+                confirmation: 'fail',
+                message: 'Wrong Password',
+              });
+            }
+          });
+        }
+      });
+    }
+  },
+  changePassword(req, res) {
+    var { token, password } = req.body;
+    if (!token || !password) {
+      res.json({
+        confirmation: 'fail',
+        message: 'Error token and password',
+      });
+    } else {
+      User.findOne({
+        where: {
+          resetToken: token,
+          expiryToken: { [Op.gte]: new Date(Date.now()).toISOString() },
+        },
+      }).then((user) => {
+        if (!user) {
+          return res.json({
+            confirmation: 'fail',
+            message: 'Token not found',
+          });
+        }
+        if (!user.password) {
+          return res.json({
+            confirmation: 'fail',
+            message:
+              "Account of this email wasn'\t signed with a passord. Sign in with the appropriate social account",
+          });
+        }
+        bcrypt.compare(password, user.password).then(async (isMatch, err) => {
+          if (isMatch) {
+            return res.json({
+              confirmation: 'fail',
+              message: 'Password the same as old password ',
+            });
+          } else {
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(password, salt, async (err, hash) => {
+                try {
+                  user.update({
+                    password: hash,
+                    resetToken: null,
+                    expiryToken: null,
+                  });
+                  res.json({
+                    confirmation: 'success',
+                    message: 'password changed',
+                    user,
+                  });
+                } catch (err) {
+                  res.send(err);
+                }
+              });
+            });
+          }
+        });
+      });
+    }
+  },
+  reset(req, res) {
+    var { email } = req.body;
+    crypto.randomBytes(32, (err, buffer) => {
+      if (err) {
+        console.log(err);
+      }
+      const token = buffer.toString('hex');
+      User.findOne({ where: { email: email } }).then((user) => {
+        if (!user) {
+          return res.json({
+            confirmation: 'fail',
+            message: 'Email not found',
+          });
+        }
+        if (!user.password) {
+          return res.json({
+            confirmation: 'fail',
+            message:
+              "Account of this email wasn'\t signed with a passord. Sign in with the appropriate social account",
+          });
+        }
+        var date = Date.now() + 3600000;
+
+        var normalizedDate = new Date(date).toISOString();
+
+        console.log(new Date(normalizedDate));
+
+        user
+          .update({ resetToken: token, expiryToken: normalizedDate })
+          .then((result) => {
+            // var forgotTemplate = jade.renderFile(
+            //   __dirname,
+            //   '../public/mailplates/forgot.jade',
+            //   {
+            //     userRecover: result.resetToken,
+            //     email,
+            //   }
+            // );
+            client.send(
+              {
+                from: 'no-reply@predictionleague.com',
+                to: result.email,
+                //cc: 'else <else@your-email.com>',
+                subject: 'Forgot Password',
+                attachment: [
+                  {
+                    data: `<p>Hello,</p>
+
+                <p>
+                  We received a request to reset the password for the Prediction League account
+                  associated with ${email}.
+                </p>
+          
+                <a href="${
+                  process.env.NODE_ENV === 'production'
+                    ? 'https://predictionleague.online'
+                    : 'http://localhost:3000'
+                }/change-password/${token}">Reset your password </a>
+          
+                <p>
+                  If you didn’t request to reset your password, let us know by replying
+                  directly to this email. No changes were made to your account yet.
+                </p>
+          
+                <p>Need help? Contact us.</p>
+                <p>Thanks,</p>
+                <p>Prediction League</p>`,
+                    alternative: true,
+                  },
+                ],
+              },
+              (err, message) => {
+                console.log(err || 'done');
+                if (err) {
+                  return res.json({
+                    confirmation: 'fail',
+                    message: 'Error',
+                  });
+                }
+              }
+            );
+          });
+        return res
+          .status(200)
+          .json({ confirmation: 'success', message: 'Check your mail' });
+      });
+    });
+  },
   getUsers(req, res) {
     User.findAll({ include: { all: true } })
       .then((users) => {
