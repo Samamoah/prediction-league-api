@@ -1,4 +1,4 @@
-const db = require('../models/index');
+Toconst db = require('../models/index');
 const { client } = require('../config/email');
 
 const User = db['User'];
@@ -15,7 +15,7 @@ module.exports = {
               text: `
               Hello ${user.name},
 
-              Don't forget to predict Gameweek 16 games. Champions League games. The gameweek starts today
+              Don't forget to predict Gameweek 17 games. Premier League games
               
               Regards
               `,
