@@ -1,4 +1,4 @@
-Toconst db = require('../models/index');
+const db = require('../models/index');
 const { client } = require('../config/email');
 
 const User = db['User'];
