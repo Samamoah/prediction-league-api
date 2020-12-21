@@ -96,7 +96,7 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })
-        .filter((game) => game.matchday === 14)
+        .filter((game) => game.matchday === 15)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED');
@@ -107,7 +107,7 @@ module.exports = {
       //console.log('here', req);
       res.json({
         confirmation: 'success',
-        matchday: 21,
+        matchday: 22,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
