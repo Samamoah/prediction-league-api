@@ -156,11 +156,9 @@ module.exports = {
 
     const all = [...competition.data.matches, ...ucl.data.matches];
 
-    console.log(all);
-
     Game.findAll({ raw: true })
       .then((games) => {
-        // console.log(games);
+        console.log(games);
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           var state = element.awarded;
