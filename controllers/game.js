@@ -191,7 +191,7 @@ module.exports = {
                   where: { id: element.id },
                 }
               )
-                .then(() => console.log('done'))
+                .then((game) => console.log(game))
                 .catch((err) => console.log(err));
             } else {
               Game.update(
@@ -203,7 +203,7 @@ module.exports = {
                   where: { id: element.id },
                 }
               )
-                .then(() => console.log('done'))
+                .then((game) => console.log(game))
                 .catch((err) => console.log(err));
             }
           }
