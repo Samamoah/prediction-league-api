@@ -175,7 +175,7 @@ module.exports = {
               };
             })
             .filter((game) => game.id === id);
-          console.log(scoregame);
+          // console.log(scoregame);
           // const checkgame = all.filter((game) => game.id === id);
           if (scoregame.length > 0) {
             if (scoregame[0].status === 'FINISHED') {
