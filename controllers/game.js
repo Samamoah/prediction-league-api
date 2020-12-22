@@ -179,32 +179,33 @@ module.exports = {
           // const checkgame = all.filter((game) => game.id === id);
 
           console.log(scoregame);
-
-          if (scoregame[0].status === 'FINISHED') {
-            if (element.winner === scoregame[0].winner) {
-              Game.update(
-                {
-                  points: 3,
-                  awarded: true,
-                },
-                {
-                  where: { id: element.id },
-                }
-              )
-                .then((game) => console.log(game))
-                .catch((err) => console.log(err));
-            } else {
-              Game.update(
-                {
-                  points: 0,
-                  awarded: true,
-                },
-                {
-                  where: { id: element.id },
-                }
-              )
-                .then((game) => console.log(game))
-                .catch((err) => console.log(err));
+          if (scoregame.length > 0) {
+            if (scoregame[0].status === 'FINISHED') {
+              if (element.winner === scoregame[0].winner) {
+                Game.update(
+                  {
+                    points: 3,
+                    awarded: true,
+                  },
+                  {
+                    where: { id: element.id },
+                  }
+                )
+                  .then((game) => console.log(game))
+                  .catch((err) => console.log(err));
+              } else {
+                Game.update(
+                  {
+                    points: 0,
+                    awarded: true,
+                  },
+                  {
+                    where: { id: element.id },
+                  }
+                )
+                  .then((game) => console.log(game))
+                  .catch((err) => console.log(err));
+              }
             }
           }
         }
