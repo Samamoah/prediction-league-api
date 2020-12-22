@@ -177,7 +177,9 @@ module.exports = {
               })
               .filter((game) => game.id === id);
 
-            console.log(scoregame);
+            const checkgame = all.filter((game) => game.id === id);
+
+            console.log(checkgame);
 
             if (scoregame[0].status === 'FINISHED') {
               if (element.winner === scoregame[0].winner) {
