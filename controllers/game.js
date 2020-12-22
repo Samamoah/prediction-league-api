@@ -158,13 +158,15 @@ module.exports = {
 
     Game.findAll({ raw: true })
       .then((games) => {
-        const filtergames = games.filter((game) => game.awarded === false);
-        console.log(filtergames);
+        // const filtergames = games.filter((game) => game.awarded === false);
+        // console.log(filtergames);
         for (let i = 0; i < games.length; i++) {
           const element = games[i];
           var state = element.awarded;
 
           var id = element.gameId;
+
+          console.log(games[i]);
 
           if (!state) {
             const scoregame = all
