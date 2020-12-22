@@ -166,8 +166,6 @@ module.exports = {
 
           var id = element.gameId;
 
-          console.log(games[i]);
-
           if (!state) {
             const scoregame = all
               .map((game) => {
@@ -178,6 +176,8 @@ module.exports = {
                 };
               })
               .filter((game) => game.id === id);
+
+            console.log(scoregame);
 
             if (scoregame[0].status === 'FINISHED') {
               if (element.winner === scoregame[0].winner) {
