@@ -53,7 +53,7 @@ module.exports = {
         }
       );
 
-      const all = [...competition.data.matches, ...ucl.data.matches]
+      const all = [...competition.data.matches, ...ucl.data.matches];
 
       const searchgames = all.map((game) => {
         return {
@@ -102,8 +102,6 @@ module.exports = {
         .filter((game) => game.status !== 'FINISHED');
       // .filter((game) => game.status !== 'POSTPONED');
 
-      
-
       //console.log('here', req);
       res.json({
         confirmation: 'success',
@@ -136,28 +134,29 @@ module.exports = {
       });
   },
   async awardPoints(req, res) {
-     const competition = await axios.get(
-        //`http://api.football-data.org/v2/matches/`,
-        `http://api.football-data.org/v2/competitions/2021/matches/`,
-        {
-          headers: {
-            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-          },
-        }
-      );
+    const competition = await axios.get(
+      //`http://api.football-data.org/v2/matches/`,
+      `http://api.football-data.org/v2/competitions/2021/matches/`,
+      {
+        headers: {
+          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+        },
+      }
+    );
 
-      const ucl = await axios.get(
-        //`http://api.football-data.org/v2/matches/`,
-        `http://api.football-data.org/v2/competitions/2001/matches/`,
-        {
-          headers: {
-            'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
-          },
-        }
-      );
+    const ucl = await axios.get(
+      //`http://api.football-data.org/v2/matches/`,
+      `http://api.football-data.org/v2/competitions/2001/matches/`,
+      {
+        headers: {
+          'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
+        },
+      }
+    );
 
+    const all = [...competition.data.matches, ...ucl.data.matches];
 
-      const all = [...competition.data.matches, ...ucl.data.matches]
+    console.log(all);
 
     Game.findAll({ raw: true })
       .then((games) => {
