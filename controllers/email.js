@@ -15,9 +15,9 @@ module.exports = {
               text: `
               Hello ${user.name},
 
-              Don't forget to predict Gameweek 22 games. Premier League games
+              Don't forget to predict Gameweek 23 games. Premier League games
               
-              Merry Christmas
+              Happy holidays
               `,
               from: 'no-reply@predictionleague.com',
               to: user.email,
