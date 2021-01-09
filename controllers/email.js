@@ -7,6 +7,7 @@ const User = db['User'];
 
 module.exports = {
   sendMatchdayMail(req, res) {
+    var { gameweek, competition } = req.body;
     User.findAll()
       .then((users) => {
         users.forEach((user) => {
@@ -15,9 +16,9 @@ module.exports = {
               text: `
               Hello ${user.name},
 
-              Don't forget to predict Gameweek 22 games. Premier League games
+              Don't forget to predict Gameweek ${gameweek} games. ${competition} games
               
-              Merry Christmas
+              Regards
               `,
               from: 'no-reply@predictionleague.com',
               to: user.email,
