@@ -99,7 +99,7 @@ module.exports = {
         .filter((game) => game.matchday === 1)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
-        .filter((game) => game.status !== 'FINISHED');
+        .filter((game) => game.status !== 'FINISHED')
         .filter((game) => game.status !== 'POSTPONED');
 
       //console.log('here', req);
