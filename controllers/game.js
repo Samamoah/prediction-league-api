@@ -96,7 +96,7 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })
-        .filter((game) => game.matchday === 18)
+        .filter((game) => game.matchday === 19)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED')
