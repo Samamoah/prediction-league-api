@@ -106,7 +106,7 @@ module.exports = {
       res.json({
         confirmation: 'success',
         // matchday: 24,
-        matchday: 32
+        matchday: 32,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
