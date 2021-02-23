@@ -99,7 +99,7 @@ module.exports = {
           };
         })        
         .filter((game) => game.stage === "ROUND_OF_16")
-        .filter((game) => game.referees.length > 0)
+        .filter((game) => game.homeTeam === "SS Lazio" || game.homeTeam ===  "Club Atlético de Madrid" || game.homeTeam ===  "Borussia Mönchengladbach" || game.homeTeam ===  "Atalanta BC")
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED')
