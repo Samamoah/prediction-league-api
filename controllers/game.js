@@ -94,10 +94,12 @@ module.exports = {
             status: game.status,
             matchday: game.matchday,
             stage: game.stage,
+            referees: game.referees,
             currentMatchday: game.season.currentMatchday,
           };
         })        
-        .filter((game) => game.matchday === 8)
+        .filter((game) => game.stage === "ROUND_OF_16")
+        .filter((game) => game.referees.length > 0)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED')
