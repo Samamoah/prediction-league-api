@@ -97,11 +97,10 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })        
-        .filter((game) => game.stage === "ROUND_OF_16")
+        .filter((game) => game.matchday === 7)
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED')
-        //.filter((game) => game.matchday === 7)
         //.filter((game) => game.status !== 'POSTPONED');
 
       //console.log('here', req);
