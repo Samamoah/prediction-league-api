@@ -76,7 +76,7 @@ module.exports = {
   async getCompetition(req, res) {
     try {
       const competition = await axios.get(
-        `http://api.football-data.org/v2/competitions/2001/matches/`,
+        `http://api.football-data.org/v2/competitions/2021/matches/`,
         {
           headers: {
             'X-Auth-Token': 'fe71fd8d5918452982b3997c2e0dd782',
@@ -98,8 +98,8 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })        
-        .filter((game) => game.stage === "ROUND_OF_16")
-        .filter((game) => game.homeTeam === "SS Lazio" || game.homeTeam ===  "Club Atlético de Madrid" || game.homeTeam ===  "Borussia Mönchengladbach" || game.homeTeam ===  "Atalanta BC")
+        .filter((game) => game.matchday === 26)
+        //.filter((game) => game.homeTeam === "SS Lazio" || game.homeTeam ===  "Club Atlético de Madrid" || game.homeTeam ===  "Borussia Mönchengladbach" || game.homeTeam ===  "Atalanta BC")
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
         .filter((game) => game.status !== 'FINISHED')
@@ -109,7 +109,7 @@ module.exports = {
       res.json({
         confirmation: 'success',
         // matchday: 24,
-        matchday: 34,
+        matchday: 35,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
