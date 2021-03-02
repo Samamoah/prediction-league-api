@@ -98,7 +98,7 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })        
-        .filter((game) => game.matchday === 27)
+        .filter((game) => game.matchday === 29)
         //.filter((game) => game.homeTeam === "SS Lazio" || game.homeTeam ===  "Club Atlético de Madrid" || game.homeTeam ===  "Borussia Mönchengladbach" || game.homeTeam ===  "Atalanta BC")
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
