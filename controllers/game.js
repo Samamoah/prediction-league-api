@@ -98,7 +98,7 @@ module.exports = {
             currentMatchday: game.season.currentMatchday,
           };
         })        
-        .filter((game) => game.matchday === 31)
+        .filter((game) => game.matchday === 32)
         //.filter((game) => game.homeTeam === "SS Lazio" || game.homeTeam ===  "Club Atlético de Madrid" || game.homeTeam ===  "Borussia Mönchengladbach" || game.homeTeam ===  "Atalanta BC")
         .filter((game) => game.status !== 'IN_PLAY')
         .filter((game) => game.status !== 'PAUSED')
@@ -109,7 +109,7 @@ module.exports = {
       res.json({
         confirmation: 'success',
         // matchday: 24,
-        matchday: 40,
+        matchday: 41,
         competition: competition.data.competition.name,
         data: unfinishedgames,
       });
